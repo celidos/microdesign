@@ -1,0 +1,248 @@
+
+sound.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000010a  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000004  00800060  0000010a  0000019e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800064  00800064  000001a2  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000001a2  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000030  00000000  00000000  000001d2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000013b  00000000  00000000  00000202  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000000d7  00000000  00000000  0000033d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000000dc  00000000  00000000  00000414  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000064  00000000  00000000  000004f0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000184  00000000  00000000  00000554  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000009d  00000000  00000000  000006d8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000020  00000000  00000000  00000775  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	2e c0       	rjmp	.+92     	; 0x60 <__bad_interrupt>
+   4:	2d c0       	rjmp	.+90     	; 0x60 <__bad_interrupt>
+   6:	2c c0       	rjmp	.+88     	; 0x60 <__bad_interrupt>
+   8:	2b c0       	rjmp	.+86     	; 0x60 <__bad_interrupt>
+   a:	2a c0       	rjmp	.+84     	; 0x60 <__bad_interrupt>
+   c:	29 c0       	rjmp	.+82     	; 0x60 <__bad_interrupt>
+   e:	28 c0       	rjmp	.+80     	; 0x60 <__bad_interrupt>
+  10:	27 c0       	rjmp	.+78     	; 0x60 <__bad_interrupt>
+  12:	26 c0       	rjmp	.+76     	; 0x60 <__bad_interrupt>
+  14:	25 c0       	rjmp	.+74     	; 0x60 <__bad_interrupt>
+  16:	24 c0       	rjmp	.+72     	; 0x60 <__bad_interrupt>
+  18:	23 c0       	rjmp	.+70     	; 0x60 <__bad_interrupt>
+  1a:	22 c0       	rjmp	.+68     	; 0x60 <__bad_interrupt>
+  1c:	21 c0       	rjmp	.+66     	; 0x60 <__bad_interrupt>
+  1e:	20 c0       	rjmp	.+64     	; 0x60 <__bad_interrupt>
+  20:	1f c0       	rjmp	.+62     	; 0x60 <__bad_interrupt>
+  22:	1e c0       	rjmp	.+60     	; 0x60 <__bad_interrupt>
+  24:	1d c0       	rjmp	.+58     	; 0x60 <__bad_interrupt>
+  26:	2f c0       	rjmp	.+94     	; 0x86 <__vector_19>
+  28:	1b c0       	rjmp	.+54     	; 0x60 <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+
+00000036 <__do_copy_data>:
+  36:	10 e0       	ldi	r17, 0x00	; 0
+  38:	a0 e6       	ldi	r26, 0x60	; 96
+  3a:	b0 e0       	ldi	r27, 0x00	; 0
+  3c:	ea e0       	ldi	r30, 0x0A	; 10
+  3e:	f1 e0       	ldi	r31, 0x01	; 1
+  40:	02 c0       	rjmp	.+4      	; 0x46 <__SREG__+0x7>
+  42:	05 90       	lpm	r0, Z+
+  44:	0d 92       	st	X+, r0
+  46:	a4 36       	cpi	r26, 0x64	; 100
+  48:	b1 07       	cpc	r27, r17
+  4a:	d9 f7       	brne	.-10     	; 0x42 <__SREG__+0x3>
+
+0000004c <__do_clear_bss>:
+  4c:	20 e0       	ldi	r18, 0x00	; 0
+  4e:	a4 e6       	ldi	r26, 0x64	; 100
+  50:	b0 e0       	ldi	r27, 0x00	; 0
+  52:	01 c0       	rjmp	.+2      	; 0x56 <.do_clear_bss_start>
+
+00000054 <.do_clear_bss_loop>:
+  54:	1d 92       	st	X+, r1
+
+00000056 <.do_clear_bss_start>:
+  56:	a6 36       	cpi	r26, 0x66	; 102
+  58:	b2 07       	cpc	r27, r18
+  5a:	e1 f7       	brne	.-8      	; 0x54 <.do_clear_bss_loop>
+  5c:	45 d0       	rcall	.+138    	; 0xe8 <main>
+  5e:	53 c0       	rjmp	.+166    	; 0x106 <_exit>
+
+00000060 <__bad_interrupt>:
+  60:	cf cf       	rjmp	.-98     	; 0x0 <__vectors>
+
+00000062 <init>:
+char reg_switcher = 1;
+
+void init()
+{
+	// настройка внешних устройств
+	DDRB	   |=  (1 << 1);							// Диод - на выход
+  62:	b9 9a       	sbi	0x17, 1	; 23
+	DDRD       |=  (1 << 7);                            //  PD7 на выход
+  64:	8f 9a       	sbi	0x11, 7	; 17
+	PORTB      &= ~(1 << 1);							// По умолчанию лампочка не горит
+  66:	c1 98       	cbi	0x18, 1	; 24
+
+	// настройка таймера
+	TIMSK       = (1 << BIT_TIMER0_COMPARE_INTERRUPT);	// маска для прерывания от таймера 0 по совпадению счетчика TCNT0 таймера
+  68:	82 e0       	ldi	r24, 0x02	; 2
+  6a:	89 bf       	out	0x39, r24	; 57
+	
+	TCCR0       = 0x0A;									// b  0 0 0 0 1 0 1 0
+  6c:	8a e0       	ldi	r24, 0x0A	; 10
+  6e:	83 bf       	out	0x33, r24	; 51
+														//      0     1        Режим CTC (сброс при совпадении)
+														//              0 1 0  CS02..00 - Предделитель для таймера Т0 (равен 1/8) 
+	
+	OCR0        = 0x40;									// Максимальное значение регистра сравнения, равное 33d (до срабатывания таймера)
+  70:	80 e4       	ldi	r24, 0x40	; 64
+  72:	8c bf       	out	0x3c, r24	; 60
+														//  16 000 000 / (8 * 33) ~= 60 606 ~= 60 kHz
+	
+	// настраиваем АЦП
+	ADMUX       = 0x60;			// b 0 1 1 0 0 0 0 0
+  74:	80 e6       	ldi	r24, 0x60	; 96
+  76:	87 b9       	out	0x07, r24	; 7
+	//   0 1              Источник опорного напряжения - AVcc = 5V
+	//       1            Выравнивание результата влево  ( DDDDDDDD DDxxxxxx )
+	//         0 0 0 0 0  Выбор входного канала (ADC0, обычный, без усиления)
+	
+	SFIOR      &= 0x1F;         // b 0 0 0 ? ? ? ? ?
+  78:	80 b7       	in	r24, 0x30	; 48
+  7a:	8f 71       	andi	r24, 0x1F	; 31
+  7c:	80 bf       	out	0x30, r24	; 48
+	//   0 0 0            Режим непрерывного преобразования
+
+	ADCSRA      = 0xE1;         // b 1 1 1 0 0 1 1 1
+  7e:	81 ee       	ldi	r24, 0xE1	; 225
+  80:	86 b9       	out	0x06, r24	; 6
+	//       1            Устанавливает режим работы АЦП в соответствии с регистром SFIOR (непрерывного преобразования)
+	//         0          Флаг готовности результата
+	//           0        Запрет прерывания по готовности результата (здесь не нужно)
+	//             1 1 1  Задают предделитель (здесь максимальный: 1/128)
+	
+	sei();												// Разрешение глобальных прерываний
+  82:	78 94       	sei
+  84:	08 95       	ret
+
+00000086 <__vector_19>:
+
+int time_count = 0;
+int max_timer = 128;
+
+ISR (TIMER0_COMP_vect)
+{
+  86:	1f 92       	push	r1
+  88:	0f 92       	push	r0
+  8a:	0f b6       	in	r0, 0x3f	; 63
+  8c:	0f 92       	push	r0
+  8e:	11 24       	eor	r1, r1
+  90:	2f 93       	push	r18
+  92:	3f 93       	push	r19
+  94:	8f 93       	push	r24
+  96:	9f 93       	push	r25
+	++time_count;
+  98:	80 91 64 00 	lds	r24, 0x0064
+  9c:	90 91 65 00 	lds	r25, 0x0065
+  a0:	01 96       	adiw	r24, 0x01	; 1
+  a2:	90 93 65 00 	sts	0x0065, r25
+  a6:	80 93 64 00 	sts	0x0064, r24
+	if (time_count > max_timer)
+  aa:	20 91 60 00 	lds	r18, 0x0060
+  ae:	30 91 61 00 	lds	r19, 0x0061
+  b2:	28 17       	cp	r18, r24
+  b4:	39 07       	cpc	r19, r25
+  b6:	7c f4       	brge	.+30     	; 0xd6 <__vector_19+0x50>
+	{
+		
+		time_count = 0;
+  b8:	10 92 65 00 	sts	0x0065, r1
+  bc:	10 92 64 00 	sts	0x0064, r1
+		
+		
+		reg_switcher ^= 1;
+  c0:	90 91 62 00 	lds	r25, 0x0062
+  c4:	81 e0       	ldi	r24, 0x01	; 1
+  c6:	89 27       	eor	r24, r25
+  c8:	80 93 62 00 	sts	0x0062, r24
+		if (reg_switcher)
+  cc:	88 23       	and	r24, r24
+  ce:	11 f0       	breq	.+4      	; 0xd4 <__vector_19+0x4e>
+		PORTD &= ~(1 << 7);
+  d0:	97 98       	cbi	0x12, 7	; 18
+  d2:	01 c0       	rjmp	.+2      	; 0xd6 <__vector_19+0x50>
+		else
+		PORTD |=  (1 << 7);
+  d4:	97 9a       	sbi	0x12, 7	; 18
+	}
+}
+  d6:	9f 91       	pop	r25
+  d8:	8f 91       	pop	r24
+  da:	3f 91       	pop	r19
+  dc:	2f 91       	pop	r18
+  de:	0f 90       	pop	r0
+  e0:	0f be       	out	0x3f, r0	; 63
+  e2:	0f 90       	pop	r0
+  e4:	1f 90       	pop	r1
+  e6:	18 95       	reti
+
+000000e8 <main>:
+
+int main(void)
+{
+	init();
+  e8:	bc df       	rcall	.-136    	; 0x62 <init>
+	
+	while (1)
+	{
+		if (ADCSRA & (1 << ADIF))
+  ea:	34 9b       	sbis	0x06, 4	; 6
+  ec:	fe cf       	rjmp	.-4      	; 0xea <main+0x2>
+		{
+			char t1 = ADCL;
+  ee:	84 b1       	in	r24, 0x04	; 4
+			char t2 = ADCH;
+  f0:	85 b1       	in	r24, 0x05	; 5
+			
+			
+			short int temp = t2;
+  f2:	90 e0       	ldi	r25, 0x00	; 0
+			
+			temp = temp >> 2;
+  f4:	95 95       	asr	r25
+  f6:	87 95       	ror	r24
+  f8:	95 95       	asr	r25
+  fa:	87 95       	ror	r24
+			max_timer = temp;
+  fc:	90 93 61 00 	sts	0x0061, r25
+ 100:	80 93 60 00 	sts	0x0060, r24
+ 104:	f2 cf       	rjmp	.-28     	; 0xea <main+0x2>
+
+00000106 <_exit>:
+ 106:	f8 94       	cli
+
+00000108 <__stop_program>:
+ 108:	ff cf       	rjmp	.-2      	; 0x108 <__stop_program>

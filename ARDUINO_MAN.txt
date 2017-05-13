@@ -1,0 +1,31 @@
+/-------------------- Atmega8535 -------------------------/
+
+/* compilation using avr-gcc */
+
+avr-gcc -g -Os -mmcu=atmega8535 -c lasertrans.c
+avr-gcc -g -mmcu=atmega8535 -o lasertrans.elf lasertrans.o
+avr-objcopy -j .text -j .data -O ihex lasertrans.elf lasertrans.hex
+
+/* loading hex (USBasp)*/
+avrdude -p m8535 -P usb -c usbasp -v -U flash:w:lasertrans.hex:i
+
+
+/--------------- ARDUINO (ATMEGA2560) --------------------/
+
+/* compilation using avr-gcc */
+avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega2560 -c -o reciever.o reciever.c
+avr-gcc -mmcu=atmega2560 reciever.o -o reciever
+avr-objcopy -O ihex -R .eeprom reciever reciever.hex
+
+/* loading hex (wiring) */
+avrdude -C/usr/share/arduino/hardware/tools/avrdude.conf -v -v -v -v -patmega2560 -cwiring -P/dev/ttyUSB0 -b115200 -D -Uflash:w:reciever.hex:i
+
+/* how to restore insertion (using USBasp) */
+
+0. Connect USBasp to Arduino
+1. Open Arduino IDE
+2. Set Tools > Board > [board]
+3. Set Tools > Programmer > USBasp
+4. Tools > Burn Bootloader
+5. PROFIT!
+

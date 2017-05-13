@@ -1,0 +1,154 @@
+
+infrared0.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000008e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .comment      00000030  00000000  00000000  000000e2  2**0
+                  CONTENTS, READONLY
+  2 .debug_aranges 00000030  00000000  00000000  00000112  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000000bc  00000000  00000000  00000142  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 0000008c  00000000  00000000  000001fe  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000d5  00000000  00000000  0000028a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000050  00000000  00000000  00000360  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000167  00000000  00000000  000003b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    0000002f  00000000  00000000  00000517  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000020  00000000  00000000  00000546  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	1b c0       	rjmp	.+54     	; 0x5e <__vector_19>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	22 d0       	rcall	.+68     	; 0x7c <main>
+  38:	28 c0       	rjmp	.+80     	; 0x8a <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <init>:
+#define BUTTONS_POLL_INTERVAL 20
+
+void init()
+{
+	// настройка внешних устройств
+	DDRB	   |=  (1 << LED) | (1 << IRED);			// Индикатор и мигающий диод - на выход
+  3c:	87 b3       	in	r24, 0x17	; 23
+  3e:	8a 60       	ori	r24, 0x0A	; 10
+  40:	87 bb       	out	0x17, r24	; 23
+	DDRB       &= ~((1 << BUTTON) | (1 << TSOP));		// Кнопка и TSOP - на вход
+  42:	87 b3       	in	r24, 0x17	; 23
+  44:	8b 7e       	andi	r24, 0xEB	; 235
+  46:	87 bb       	out	0x17, r24	; 23
+	PORTB      &= ~((1 << LED) | (1 << IRED));			// По умолчанию лампочка не горит
+  48:	88 b3       	in	r24, 0x18	; 24
+  4a:	85 7f       	andi	r24, 0xF5	; 245
+  4c:	88 bb       	out	0x18, r24	; 24
+
+	// настройка таймера
+	TIMSK       = (1 << BIT_TIMER0_COMPARE_INTERRUPT);	// маска для прерывания от таймера 0 по совпадению счетчика TCNT0 таймера
+  4e:	82 e0       	ldi	r24, 0x02	; 2
+  50:	89 bf       	out	0x39, r24	; 57
+	
+	TCCR0       = 0x0A;									// b  0 0 0 0 1 0 1 0
+  52:	8a e0       	ldi	r24, 0x0A	; 10
+  54:	83 bf       	out	0x33, r24	; 51
+														//      0     1        Режим CTC (сброс при совпадении)
+														//              0 1 0  CS02..00 - Предделитель для таймера Т0 (равен 1/8) 
+	
+	OCR0        = 0x21;									// Максимальное значение регистра сравнения, равное 33d (до срабатывания таймера)
+  56:	81 e2       	ldi	r24, 0x21	; 33
+  58:	8c bf       	out	0x3c, r24	; 60
+														//  16 000 000 / (8 * 33) ~= 60 606 ~= 60 kHz
+	 
+	sei();												// Разрешение глобальных прерываний
+  5a:	78 94       	sei
+  5c:	08 95       	ret
+
+0000005e <__vector_19>:
+}
+
+ISR (TIMER0_COMP_vect)
+{
+  5e:	1f 92       	push	r1
+  60:	0f 92       	push	r0
+  62:	0f b6       	in	r0, 0x3f	; 63
+  64:	0f 92       	push	r0
+  66:	11 24       	eor	r1, r1
+	if (PORTB & (1 << IRED))
+  68:	c3 9b       	sbis	0x18, 3	; 24
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__vector_19+0x12>
+		PORTB &= ~(1 << IRED);
+  6c:	c3 98       	cbi	0x18, 3	; 24
+  6e:	01 c0       	rjmp	.+2      	; 0x72 <__vector_19+0x14>
+	else
+		PORTB |=  (1 << IRED);
+  70:	c3 9a       	sbi	0x18, 3	; 24
+}
+  72:	0f 90       	pop	r0
+  74:	0f be       	out	0x3f, r0	; 63
+  76:	0f 90       	pop	r0
+  78:	1f 90       	pop	r1
+  7a:	18 95       	reti
+
+0000007c <main>:
+
+int main(void)
+{
+	init();
+  7c:	df df       	rcall	.-66     	; 0x3c <init>
+	
+	while (1)
+	{
+		if (!(PINB & (1 << TSOP))) // Если луч принимается, то на выходе TSOP выдает ноль
+  7e:	b4 99       	sbic	0x16, 4	; 22
+  80:	02 c0       	rjmp	.+4      	; 0x86 <main+0xa>
+			PORTB |= (1 << LED);
+  82:	c1 9a       	sbi	0x18, 1	; 24
+  84:	fc cf       	rjmp	.-8      	; 0x7e <main+0x2>
+		else
+			PORTB &= ~(1 << LED);
+  86:	c1 98       	cbi	0x18, 1	; 24
+  88:	fa cf       	rjmp	.-12     	; 0x7e <main+0x2>
+
+0000008a <_exit>:
+  8a:	f8 94       	cli
+
+0000008c <__stop_program>:
+  8c:	ff cf       	rjmp	.-2      	; 0x8c <__stop_program>

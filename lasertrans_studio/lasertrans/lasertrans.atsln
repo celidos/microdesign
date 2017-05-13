@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "lasertrans", "lasertrans\lasertrans.cproj", "{22F82D5D-9E95-4002-8815-8F54F297AA46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22F82D5D-9E95-4002-8815-8F54F297AA46}.Debug|AVR.ActiveCfg = Debug|AVR
+		{22F82D5D-9E95-4002-8815-8F54F297AA46}.Debug|AVR.Build.0 = Debug|AVR
+		{22F82D5D-9E95-4002-8815-8F54F297AA46}.Release|AVR.ActiveCfg = Release|AVR
+		{22F82D5D-9E95-4002-8815-8F54F297AA46}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

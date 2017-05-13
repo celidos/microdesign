@@ -1,0 +1,245 @@
+
+timer0.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000114  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  00000114  000001a8  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  00800062  00800062  000001aa  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000001aa  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000030  00000000  00000000  000001da  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000118  00000000  00000000  0000020a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000000b9  00000000  00000000  00000322  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000000df  00000000  00000000  000003db  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000064  00000000  00000000  000004bc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000016a  00000000  00000000  00000520  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000076  00000000  00000000  0000068a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000020  00000000  00000000  00000700  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	2e c0       	rjmp	.+92     	; 0x60 <__bad_interrupt>
+   4:	2d c0       	rjmp	.+90     	; 0x60 <__bad_interrupt>
+   6:	2c c0       	rjmp	.+88     	; 0x60 <__bad_interrupt>
+   8:	2b c0       	rjmp	.+86     	; 0x60 <__bad_interrupt>
+   a:	2a c0       	rjmp	.+84     	; 0x60 <__bad_interrupt>
+   c:	29 c0       	rjmp	.+82     	; 0x60 <__bad_interrupt>
+   e:	28 c0       	rjmp	.+80     	; 0x60 <__bad_interrupt>
+  10:	27 c0       	rjmp	.+78     	; 0x60 <__bad_interrupt>
+  12:	26 c0       	rjmp	.+76     	; 0x60 <__bad_interrupt>
+  14:	25 c0       	rjmp	.+74     	; 0x60 <__bad_interrupt>
+  16:	24 c0       	rjmp	.+72     	; 0x60 <__bad_interrupt>
+  18:	23 c0       	rjmp	.+70     	; 0x60 <__bad_interrupt>
+  1a:	22 c0       	rjmp	.+68     	; 0x60 <__bad_interrupt>
+  1c:	21 c0       	rjmp	.+66     	; 0x60 <__bad_interrupt>
+  1e:	20 c0       	rjmp	.+64     	; 0x60 <__bad_interrupt>
+  20:	1f c0       	rjmp	.+62     	; 0x60 <__bad_interrupt>
+  22:	1e c0       	rjmp	.+60     	; 0x60 <__bad_interrupt>
+  24:	1d c0       	rjmp	.+58     	; 0x60 <__bad_interrupt>
+  26:	36 c0       	rjmp	.+108    	; 0x94 <__vector_19>
+  28:	1b c0       	rjmp	.+54     	; 0x60 <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+
+00000036 <__do_copy_data>:
+  36:	10 e0       	ldi	r17, 0x00	; 0
+  38:	a0 e6       	ldi	r26, 0x60	; 96
+  3a:	b0 e0       	ldi	r27, 0x00	; 0
+  3c:	e4 e1       	ldi	r30, 0x14	; 20
+  3e:	f1 e0       	ldi	r31, 0x01	; 1
+  40:	02 c0       	rjmp	.+4      	; 0x46 <__SREG__+0x7>
+  42:	05 90       	lpm	r0, Z+
+  44:	0d 92       	st	X+, r0
+  46:	a2 36       	cpi	r26, 0x62	; 98
+  48:	b1 07       	cpc	r27, r17
+  4a:	d9 f7       	brne	.-10     	; 0x42 <__SREG__+0x3>
+
+0000004c <__do_clear_bss>:
+  4c:	20 e0       	ldi	r18, 0x00	; 0
+  4e:	a2 e6       	ldi	r26, 0x62	; 98
+  50:	b0 e0       	ldi	r27, 0x00	; 0
+  52:	01 c0       	rjmp	.+2      	; 0x56 <.do_clear_bss_start>
+
+00000054 <.do_clear_bss_loop>:
+  54:	1d 92       	st	X+, r1
+
+00000056 <.do_clear_bss_start>:
+  56:	a5 36       	cpi	r26, 0x65	; 101
+  58:	b2 07       	cpc	r27, r18
+  5a:	e1 f7       	brne	.-8      	; 0x54 <.do_clear_bss_loop>
+  5c:	4c d0       	rcall	.+152    	; 0xf6 <main>
+  5e:	58 c0       	rjmp	.+176    	; 0x110 <_exit>
+
+00000060 <__bad_interrupt>:
+  60:	cf cf       	rjmp	.-98     	; 0x0 <__vectors>
+
+00000062 <init>:
+char led_state        = 0;
+
+void init()
+{
+	// настройка внешних устройств
+	RESIST_DDR  = 0;              // Все пины порта, на котором висит потенциометр, настраиваем как входы
+  62:	1a ba       	out	0x1a, r1	; 26
+	
+	LED_DDR    |= (1 << LED);     // пин светодиода настраиваем как выход
+  64:	b9 9a       	sbi	0x17, 1	; 23
+	LED_PORT   &= ~(1 << LED);    // По дефолту светодиод выключаем (в регистр данных ставим 0)
+  66:	c1 98       	cbi	0x18, 1	; 24
+	BUTTON_DDR &= ~(1 << BUTTON); // пин кнопки принудительно ставим в 0 (т.е. кнопка как вход)
+  68:	ba 98       	cbi	0x17, 2	; 23
+	
+	// настройа таймера
+	TIMSK       = (1 << BIT_TIMER0_COMPARE_INTERRUPT);	// маска для прерывания от таймера 0 по совпадению OCR0 и счетчика TCNT0 таймера
+  6a:	82 e0       	ldi	r24, 0x02	; 2
+  6c:	89 bf       	out	0x39, r24	; 57
+	
+	TCCR0       = 0x0D;//(1 << WGM01) | (1 << CS02) | (1 << CS00); // 0b 0 0 0 0 1 1 0 1   (предделитель 1/1024)
+  6e:	8d e0       	ldi	r24, 0x0D	; 13
+  70:	83 bf       	out	0x33, r24	; 51
+	OCR0        = 0xFF;									// Максимальное значение регистра сравнения (до срабатывания таймера)
+  72:	8f ef       	ldi	r24, 0xFF	; 255
+  74:	8c bf       	out	0x3c, r24	; 60
+	
+	sei();												// SREG		= (1 << 7);
+  76:	78 94       	sei
+	
+	// настраиваем АЦП
+	ADMUX       = 0x60;			// b 0 1 1 0 0 0 0 0
+  78:	80 e6       	ldi	r24, 0x60	; 96
+  7a:	87 b9       	out	0x07, r24	; 7
+	                            //   0 1              Источник опорного напряжения - AVcc = 5V
+								//       1            Выравнивание результата влево  ( DDDDDDDD DDxxxxxx )
+								//         0 0 0 0 0  Выбор выходного канала (ADC0, обычный, без усиления)
+	
+	SFIOR      &= 0x1F;         // b 0 0 0 ? ? ? ? ? 
+  7c:	80 b7       	in	r24, 0x30	; 48
+  7e:	8f 71       	andi	r24, 0x1F	; 31
+  80:	80 bf       	out	0x30, r24	; 48
+								//   0 0 0            Режим непрерывного преобразования
+
+	ADCSRA      = 0xE7;         // b 1 1 1 0 0 1 1 1 
+  82:	87 ee       	ldi	r24, 0xE7	; 231
+  84:	86 b9       	out	0x06, r24	; 6
+								//       1            Устанавливает режим работы АЦП в соответствии с регистром SFIOR (непрерывного преобразования)
+								//         0          Флаг готовности результата
+								//           0        Запрет прерывания по готовности результата (здесь не нужно)
+								//             1 1 1  Задают предделитель (здесь максимальный: 1/128)
+	
+	timer_count	= 0;									// обнуляем счетчик
+  86:	10 92 64 00 	sts	0x0064, r1
+  8a:	10 92 63 00 	sts	0x0063, r1
+	led_state   = 0;									// изначально выключена
+  8e:	10 92 62 00 	sts	0x0062, r1
+  92:	08 95       	ret
+
+00000094 <__vector_19>:
+}
+
+ISR (TIMER0_COMP_vect)
+{
+  94:	1f 92       	push	r1
+  96:	0f 92       	push	r0
+  98:	0f b6       	in	r0, 0x3f	; 63
+  9a:	0f 92       	push	r0
+  9c:	11 24       	eor	r1, r1
+  9e:	2f 93       	push	r18
+  a0:	3f 93       	push	r19
+  a2:	8f 93       	push	r24
+  a4:	9f 93       	push	r25
+	++timer_count;
+  a6:	80 91 63 00 	lds	r24, 0x0063
+  aa:	90 91 64 00 	lds	r25, 0x0064
+  ae:	01 96       	adiw	r24, 0x01	; 1
+  b0:	90 93 64 00 	sts	0x0064, r25
+  b4:	80 93 63 00 	sts	0x0063, r24
+	if (timer_count >= max_timer_count)
+  b8:	20 91 60 00 	lds	r18, 0x0060
+  bc:	30 91 61 00 	lds	r19, 0x0061
+  c0:	82 17       	cp	r24, r18
+  c2:	93 07       	cpc	r25, r19
+  c4:	7c f0       	brlt	.+30     	; 0xe4 <__vector_19+0x50>
+	{
+		led_state ^= 1;
+  c6:	90 91 62 00 	lds	r25, 0x0062
+  ca:	81 e0       	ldi	r24, 0x01	; 1
+  cc:	89 27       	eor	r24, r25
+  ce:	80 93 62 00 	sts	0x0062, r24
+		timer_count = 0;
+  d2:	10 92 64 00 	sts	0x0064, r1
+  d6:	10 92 63 00 	sts	0x0063, r1
+		
+		if (led_state)
+  da:	88 23       	and	r24, r24
+  dc:	11 f0       	breq	.+4      	; 0xe2 <__vector_19+0x4e>
+			LED_PORT |= (1 << LED);			// включаем светодиод, когда нужно
+  de:	c1 9a       	sbi	0x18, 1	; 24
+  e0:	01 c0       	rjmp	.+2      	; 0xe4 <__vector_19+0x50>
+		else
+			LED_PORT &= ~(1 << LED);		// Иначе выключаем
+  e2:	c1 98       	cbi	0x18, 1	; 24
+	}
+}
+  e4:	9f 91       	pop	r25
+  e6:	8f 91       	pop	r24
+  e8:	3f 91       	pop	r19
+  ea:	2f 91       	pop	r18
+  ec:	0f 90       	pop	r0
+  ee:	0f be       	out	0x3f, r0	; 63
+  f0:	0f 90       	pop	r0
+  f2:	1f 90       	pop	r1
+  f4:	18 95       	reti
+
+000000f6 <main>:
+
+int main(void)
+{
+	init();
+  f6:	b5 df       	rcall	.-150    	; 0x62 <init>
+	//char last_button_state = 0;
+	//char cur;
+	
+	while (1)
+	{
+		if (ADCSRA & (1 << ADIF))
+  f8:	34 9b       	sbis	0x06, 4	; 6
+  fa:	fe cf       	rjmp	.-4      	; 0xf8 <main+0x2>
+		{
+			char t = ADCL;
+  fc:	84 b1       	in	r24, 0x04	; 4
+			     t = ADCH;
+  fe:	85 b1       	in	r24, 0x05	; 5
+			
+			max_timer_count = 2 + (t >> 1);
+ 100:	86 95       	lsr	r24
+ 102:	90 e0       	ldi	r25, 0x00	; 0
+ 104:	02 96       	adiw	r24, 0x02	; 2
+ 106:	90 93 61 00 	sts	0x0061, r25
+ 10a:	80 93 60 00 	sts	0x0060, r24
+ 10e:	f4 cf       	rjmp	.-24     	; 0xf8 <main+0x2>
+
+00000110 <_exit>:
+ 110:	f8 94       	cli
+
+00000112 <__stop_program>:
+ 112:	ff cf       	rjmp	.-2      	; 0x112 <__stop_program>

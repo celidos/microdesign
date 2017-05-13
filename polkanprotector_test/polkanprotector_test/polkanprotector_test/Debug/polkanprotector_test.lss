@@ -1,0 +1,108 @@
+
+polkanprotector_test.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000005e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .comment      00000030  00000000  00000000  000000b2  2**0
+                  CONTENTS, READONLY
+  2 .debug_aranges 00000020  00000000  00000000  000000e2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000010a  00000000  00000000  00000102  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000000c2  00000000  00000000  0000020c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000150  00000000  00000000  000002ce  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000024  00000000  00000000  00000420  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000001c4  00000000  00000000  00000444  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_ranges 00000010  00000000  00000000  00000608  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	10 c0       	rjmp	.+32     	; 0x5a <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <main>:
+
+#define BUTTONS_POLL_INTERVAL 10
+
+int main(void)
+{
+	LED_DDR    |= (1 << LED);     // пин светодиода настраиваем как выход
+  3c:	b9 9a       	sbi	0x17, 1	; 23
+	LED_PORT   &= ~(1 << LED);    // По дефолту выключаем
+  3e:	c1 98       	cbi	0x18, 1	; 24
+	BUTTON_DDR &= ~(1 << BUTTON); // пин кнопки принудительно ставим в 0
+  40:	ba 98       	cbi	0x17, 2	; 23
+
+	while (1)
+	{
+		if (!(BUTTON_PIN & (1 << BUTTON))) // Если кнопка нажата
+  42:	b2 99       	sbic	0x16, 2	; 22
+  44:	02 c0       	rjmp	.+4      	; 0x4a <__SREG__+0xb>
+		{
+			LED_PORT |= (1 << LED);		// включаем светодиод (инверсия на микросхеме)
+  46:	c1 9a       	sbi	0x18, 1	; 24
+  48:	01 c0       	rjmp	.+2      	; 0x4c <__SREG__+0xd>
+		}
+		else
+		{
+			LED_PORT &= ~(1 << LED);	// Иначе выключаем
+  4a:	c1 98       	cbi	0x18, 1	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  4c:	8f e3       	ldi	r24, 0x3F	; 63
+  4e:	9c e9       	ldi	r25, 0x9C	; 156
+  50:	01 97       	sbiw	r24, 0x01	; 1
+  52:	f1 f7       	brne	.-4      	; 0x50 <__SREG__+0x11>
+  54:	00 c0       	rjmp	.+0      	; 0x56 <__SREG__+0x17>
+  56:	00 00       	nop
+  58:	f4 cf       	rjmp	.-24     	; 0x42 <__SREG__+0x3>
+
+0000005a <_exit>:
+  5a:	f8 94       	cli
+
+0000005c <__stop_program>:
+  5c:	ff cf       	rjmp	.-2      	; 0x5c <__stop_program>
